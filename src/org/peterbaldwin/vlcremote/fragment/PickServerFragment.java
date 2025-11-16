@@ -167,7 +167,11 @@ public final class PickServerFragment extends PreferenceFragment implements Port
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
         filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        getActivity().registerReceiver(mReceiver, filter);
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            getActivity().registerReceiver(mReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
     }
 
     @Override

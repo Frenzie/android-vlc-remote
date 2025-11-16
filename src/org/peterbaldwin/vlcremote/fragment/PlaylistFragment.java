@@ -126,7 +126,11 @@ public class PlaylistFragment extends MediaListFragment implements SearchView.On
         mStatusReceiver = new StatusReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intents.ACTION_STATUS);
-        getActivity().registerReceiver(mStatusReceiver, filter);
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            getActivity().registerReceiver(mStatusReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            getActivity().registerReceiver(mStatusReceiver, filter);
+        }
     }
 
     @Override

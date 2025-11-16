@@ -25,6 +25,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Browser;
 import androidx.fragment.app.Fragment;
@@ -571,7 +572,11 @@ public class PlaybackActivity extends FragmentActivity implements TabHost.OnTabC
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intents.ACTION_STATUS);
         filter.addAction(Intents.ACTION_ERROR);
-        registerReceiver(mStatusReceiver, filter);
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(mStatusReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(mStatusReceiver, filter);
+        }
         if (mMediaServer == null) {
             pickServer();
         }

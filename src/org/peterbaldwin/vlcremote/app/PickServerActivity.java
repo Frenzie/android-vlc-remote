@@ -28,6 +28,7 @@ import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Build;
 import android.os.Looper;
 import android.os.SystemClock;
 import androidx.fragment.app.FragmentActivity;
@@ -105,7 +106,11 @@ public final class PickServerActivity extends FragmentActivity implements Server
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
         filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        registerReceiver(mReceiver, filter);
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(mReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(mReceiver, filter);
+        }
     }
 
     private boolean isInitialBroadcast() {
