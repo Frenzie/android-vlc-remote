@@ -3,16 +3,16 @@ plugins {
 }
 
 android {
-    namespace 'org.peterbaldwin.client.android.vlcremote'
-    compileSdk 35
+    namespace = 'org.peterbaldwin.client.android.vlcremote'
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "org.peterbaldwin.client.android.vlcremote"
-        minSdk 21
-        targetSdk 35
-        versionCode 66
-        versionName "0.7.5"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        applicationId = "org.peterbaldwin.client.android.vlcremote"
+        minSdk = 21
+        targetSdk = 35
+        versionCode = 66
+        versionName = "0.7.5"
+        testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
 
     sourceSets {
@@ -31,17 +31,17 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
         }
         debug {
-            minifyEnabled false
+            minifyEnabled = false
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
