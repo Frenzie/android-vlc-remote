@@ -73,7 +73,7 @@ public class LibraryDirectoryLoader extends ModelLoader<Remote<Directory>> {
         if(isAllError) {
             return Remote.error(new FileNotFoundException(XmlContentHandler.ERROR_INVALID_XML));
         }
-        Collections.sort(d, mPreferences.isSortDirectoriesFirst() ? d : d.getCaseInsensitiveComparator());
+        Collections.sort(d, mPreferences.isSortDirectoriesFirst() ? Directory.DIRS_FIRST_COMPARATOR : d.getCaseInsensitiveComparator());
         return Remote.data(d);
     }
     

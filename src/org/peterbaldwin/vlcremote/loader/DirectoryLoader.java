@@ -44,7 +44,7 @@ public class DirectoryLoader extends ModelLoader<Remote<Directory>> {
         Remote<Directory> remote = mMediaServer.browse(mDir).load();
         if(remote.data != null) {
             boolean dirSort = Preferences.get(getContext()).isSortDirectoriesFirst();
-            Collections.sort(remote.data, dirSort ? remote.data : remote.data.getCaseInsensitiveComparator());
+            Collections.sort(remote.data, dirSort ? Directory.DIRS_FIRST_COMPARATOR : remote.data.getCaseInsensitiveComparator());
         }
         return remote;
     }

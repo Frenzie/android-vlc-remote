@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("serial")
-public class Directory extends ArrayList<File> implements Comparator<File> {
+public class Directory extends ArrayList<File> {
     
     public static final String UNIX_DIRECTORY = "/";
     public static final String WINDOWS_ROOT_DIRECTORY = "";
@@ -95,45 +95,39 @@ public class Directory extends ArrayList<File> implements Comparator<File> {
         return ROOT_DIRECTORY;
     }
 
-    /**
-     * Compares two Files that are to be sorted with directories being displayed
-     * before files. The parent entry will be first if present, then the
-     * directories and then files.
-     * @param firstFile
-     * @param secondFile
-     * @return a negative integer, zero, or a positive integer as the first 
-     * argument is less than, equal to, or greater than the second.
-     */
-    @Override
-    public int compare(File firstFile, File secondFile) {
-        if((firstFile.isLibrary() || firstFile.isParent()) && !secondFile.isLibrary()) {
-            return -1;
+    /** Default comparator: parent first, then directories, then files (case-insensitive). */
+    public static final Comparator<File> DIRS_FIRST_COMPARATOR = new Comparator<File>() {
+        @Override
+        public int compare(File firstFile, File secondFile) {
+            if((firstFile.isLibrary() || firstFile.isParent()) && !secondFile.isLibrary()) {
+                return -1;
+            }
+            if(!firstFile.isLibrary() && (secondFile.isLibrary() || secondFile.isParent())) {
+                return 1;
+            }
+            boolean isFirstDir = firstFile.isDirectory() || firstFile.isLibraryDir();
+            boolean isSecondDir = secondFile.isDirectory() || secondFile.isLibraryDir();
+            // parent always first
+            if(isFirstDir && firstFile.isParent() && isSecondDir && secondFile.isParent()) {
+                return 0;
+            }
+            if(isFirstDir && firstFile.isParent()) {
+                return -1;
+            }
+            if(isSecondDir && secondFile.isParent()) {
+                return 1;
+            }
+            // then directories next
+            if(isFirstDir && !isSecondDir) {
+                return -1;
+            }
+            if(isSecondDir && !isFirstDir) {
+                return 1;
+            }
+            // then files
+            return firstFile.getName().compareToIgnoreCase(secondFile.getName());
         }
-        if(!firstFile.isLibrary() && (secondFile.isLibrary() || secondFile.isParent())) {
-            return 1;
-        }
-        boolean isFirstDir = firstFile.isDirectory() || firstFile.isLibraryDir();
-        boolean isSecondDir = secondFile.isDirectory() || secondFile.isLibraryDir();
-        // parent always first
-        if(isFirstDir && firstFile.isParent() && isSecondDir && secondFile.isParent()) {
-            return 0;
-        }
-        if(isFirstDir && firstFile.isParent()) {
-            return -1;
-        }
-        if(isSecondDir && secondFile.isParent()) {
-            return 1;
-        }
-        // then directories next
-        if(isFirstDir && !isSecondDir) {
-            return -1;
-        }
-        if(isSecondDir && !isFirstDir) {
-            return 1;
-        }
-        // then files
-        return firstFile.getName().compareToIgnoreCase(secondFile.getName());
-    }
+    };
     
     public Comparator<File> getCaseInsensitiveComparator() {
         return new CaseInsensitiveComparator();

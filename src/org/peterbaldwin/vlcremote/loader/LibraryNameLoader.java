@@ -50,7 +50,7 @@ public class LibraryNameLoader extends ModelLoader<Remote<Directory>> {
                 d.addFile(library, dir);
             }
         }
-        Collections.sort(d, d);
+        Collections.sort(d, Directory.DIRS_FIRST_COMPARATOR);
         return Remote.data(d);
     }
 }
