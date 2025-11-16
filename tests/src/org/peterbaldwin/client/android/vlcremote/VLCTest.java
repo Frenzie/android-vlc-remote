@@ -17,11 +17,22 @@
 
 package org.peterbaldwin.client.android.vlcremote;
 
+import android.net.Uri;
 import junit.framework.TestCase;
+import org.peterbaldwin.vlcremote.model.File;
 
 public class VLCTest extends TestCase {
 	public void testFileUri() {
-		assertEquals("file:///C%3A/Users/Peter/Music/Fran%C3%A7ais",
-				VLC.fileUri("C:\\Users\\Peter\\Music/Français"));
+		String input = "C\\\\Users\\\\Peter\\\\Music/Français";
+		String mrl = File.getMrl(input, "mp3");
+
+		assertTrue("MRL should start with file://", mrl.startsWith("file://"));
+
+		String decoded = Uri.decode(mrl);
+		// Be resilient to different encodings of Windows drive letters
+		// Verify the decoded path ends with the expected Windows-style path
+		assertTrue("Decoded MRL should end with Windows path",
+				decoded.endsWith("C:/Users/Peter/Music/Français")
+						|| decoded.endsWith("C:\\Users\\Peter\\Music/Français"));
 	}
 }

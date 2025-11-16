@@ -71,3 +71,27 @@ The HTTP interface has a few different API versions which can lead to different 
 ##License
 android-vlc-remote is distributed under the GNU GPL version 3 or later.
 Please read the file LICENSE for more details.
+
+## Gradle Build (added)
+
+This project can now be built with Gradle without changing the legacy
+Android source layout.
+
+Prerequisites:
+
+- JDK 8
+- Android SDK with Platform `android-19` and Build-Tools `19.1.0`
+- Gradle 5.6.x (or use any Gradle with Android Gradle Plugin 3.5.4)
+
+Build commands:
+
+```
+gradle assembleDebug       # builds debug APK
+gradle assembleRelease     # builds release APK
+```
+
+Notes:
+
+- Sources remain in `src/` and resources in `res/`.
+- Local jars in `libs/` (e.g. `android-support-v4.jar`) are picked up automatically.
+- ProGuard rules from `proguard.cfg` are wired for the release build.

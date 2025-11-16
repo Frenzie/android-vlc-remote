@@ -5,8 +5,8 @@
     android:versionName="0.7.5">
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="21"
+        android:targetSdkVersion="35" />
 
     <supports-screens
         android:anyDensity="true"
@@ -39,6 +39,7 @@
         android:allowBackup="true" >
         <activity
             android:name=".PlaybackActivity"
+            android:exported="true"
             android:finishOnTaskLaunch="true"
             android:label="@string/app_name"
             android:launchMode="singleTask" >
@@ -313,7 +314,8 @@
                     android:value="org.peterbaldwin.vlcremote.app.PlaybackActivity" />
         </activity>
 
-        <receiver android:name=".MediaAppWidgetProvider" >
+        <receiver android:name=".MediaAppWidgetProvider"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -327,6 +329,7 @@
 
         <service
             android:name="org.peterbaldwin.vlcremote.service.StatusService"
+            android:exported="false"
             android:label="@string/service_label" >
             <intent-filter>
                 <action android:name="org.peterbaldwin.vlcremote.intent.action.STATUS" />
@@ -335,7 +338,8 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="org.peterbaldwin.vlcremote.receiver.PhoneStateChangedReceiver" >
+        <receiver android:name="org.peterbaldwin.vlcremote.receiver.PhoneStateChangedReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>

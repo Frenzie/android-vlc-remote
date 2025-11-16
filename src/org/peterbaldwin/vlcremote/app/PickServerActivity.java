@@ -30,7 +30,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import org.peterbaldwin.client.android.vlcremote.R;

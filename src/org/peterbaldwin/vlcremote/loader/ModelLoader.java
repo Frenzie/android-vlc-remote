@@ -18,7 +18,7 @@
 package org.peterbaldwin.vlcremote.loader;
 
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
+import androidx.loader.content.AsyncTaskLoader;
 
 abstract class ModelLoader<D> extends AsyncTaskLoader<D> {
 
