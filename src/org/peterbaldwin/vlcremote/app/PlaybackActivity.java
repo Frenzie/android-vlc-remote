@@ -286,15 +286,14 @@ public class PlaybackActivity extends FragmentActivity implements TabHost.OnTabC
 
     /** {@inheritDoc} */
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_navigation:
-                if(mTabHost == null) {
-                    mFlipper.showNext();
-                    updateNavigationButton(v);
-                } else {
-                    mTabHost.setCurrentTab(TAB_NAVIGATION_INDEX);
-                }
-                break;
+        int id = v.getId();
+        if (id == R.id.button_navigation) {
+            if (mTabHost == null) {
+                mFlipper.showNext();
+                updateNavigationButton(v);
+            } else {
+                mTabHost.setCurrentTab(TAB_NAVIGATION_INDEX);
+            }
         }
     }
 
@@ -371,37 +370,37 @@ public class PlaybackActivity extends FragmentActivity implements TabHost.OnTabC
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_preferences:
-                pickServer();
-                return true;
-            case R.id.menu_help_install:
-                Intent intent = new Intent(Intent.ACTION_VIEW, URI_INSTALL_GUIDE);
-                intent.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
-                startActivity(intent);
-                return true;
-            case R.id.menu_help_faqs:
-                Intent i = new Intent(Intent.ACTION_VIEW, URI_FAQS);
-                i.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
-                startActivity(i);
-                return true;
-            case R.id.menu_action_button_first:
-                Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_FIRST);
-                return true;
-            case R.id.menu_action_button_second:
-                Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_SECOND);
-                return true;
-            case R.id.menu_action_button_third:
-                Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_THIRD);
-                return true;
-            case R.id.menu_action_button_fourth:
-                Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_FOURTH);
-                return true;
-            case R.id.menu_action_button_fifth:
-                Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_FIFTH);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.menu_preferences) {
+            pickServer();
+            return true;
+        } else if (id == R.id.menu_help_install) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, URI_INSTALL_GUIDE);
+            intent.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.menu_help_faqs) {
+            Intent i = new Intent(Intent.ACTION_VIEW, URI_FAQS);
+            i.putExtra(Browser.EXTRA_APPLICATION_ID, getPackageName());
+            startActivity(i);
+            return true;
+        } else if (id == R.id.menu_action_button_first) {
+            Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_FIRST);
+            return true;
+        } else if (id == R.id.menu_action_button_second) {
+            Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_SECOND);
+            return true;
+        } else if (id == R.id.menu_action_button_third) {
+            Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_THIRD);
+            return true;
+        } else if (id == R.id.menu_action_button_fourth) {
+            Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_FOURTH);
+            return true;
+        } else if (id == R.id.menu_action_button_fifth) {
+            Buttons.sendCommand(mMediaServer, this, Preferences.KEY_BUTTON_FIFTH);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
     

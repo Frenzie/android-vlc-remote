@@ -65,22 +65,17 @@ public class CommonPlaybackButtonsListener implements View.OnClickListener, View
 
     /** {@inheritDoc} */
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.menu_action_button_first:
-                Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_FIRST);
-                break;
-            case R.id.menu_action_button_second:
-                Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_SECOND);
-                break;
-            case R.id.menu_action_button_third:
-                Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_THIRD);
-                break;
-            case R.id.menu_action_button_fourth:
-                Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_FOURTH);
-                break;
-            case R.id.menu_action_button_fifth:
-                Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_FIFTH);
-                break;
+        int id = v.getId();
+        if (id == R.id.menu_action_button_first) {
+            Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_FIRST);
+        } else if (id == R.id.menu_action_button_second) {
+            Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_SECOND);
+        } else if (id == R.id.menu_action_button_third) {
+            Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_THIRD);
+        } else if (id == R.id.menu_action_button_fourth) {
+            Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_FOURTH);
+        } else if (id == R.id.menu_action_button_fifth) {
+            Buttons.sendCommand(mMediaServer, v.getContext(), Preferences.KEY_BUTTON_FIFTH);
         }
     }
 

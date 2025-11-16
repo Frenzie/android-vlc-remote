@@ -153,36 +153,32 @@ public final class ButtonsFragment extends MediaFragment implements View.OnClick
 
     /** {@inheritDoc} */
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.action_button_seek_backward:
-                getMediaServer().status().command.seek(Uri.encode("-".concat(Preferences.get(getActivity()).getSeekTime())));
-                break;
-            case R.id.action_button_seek_forward:
-                getMediaServer().status().command.seek(Uri.encode("+".concat(Preferences.get(getActivity()).getSeekTime())));
-                break;
-            case R.id.playlist_button_shuffle:
-                getMediaServer().status().command.playback.random();
-                mRandom = !mRandom;
-                updateButtons();
-                break;
-            case R.id.playlist_button_repeat:
-                // Order: Normal -> Loop -> Repeat
-                if (mLoop) {
-                    // Turn-on repeat
-                    getMediaServer().status().command.playback.repeat();
-                    mRepeat = true;
-                    mLoop = false;
-                } else if (mRepeat) {
-                    // Turn-off repeat
-                    getMediaServer().status().command.playback.repeat();
-                    mRepeat = false;
-                } else {
-                    // Turn-on loop
-                    getMediaServer().status().command.playback.loop();
-                    mLoop = true;
-                }
-                updateButtons();
-                break;
+        int id = v.getId();
+        if (id == R.id.action_button_seek_backward) {
+            getMediaServer().status().command.seek(Uri.encode("-".concat(Preferences.get(getActivity()).getSeekTime())));
+        } else if (id == R.id.action_button_seek_forward) {
+            getMediaServer().status().command.seek(Uri.encode("+".concat(Preferences.get(getActivity()).getSeekTime())));
+        } else if (id == R.id.playlist_button_shuffle) {
+            getMediaServer().status().command.playback.random();
+            mRandom = !mRandom;
+            updateButtons();
+        } else if (id == R.id.playlist_button_repeat) {
+            // Order: Normal -> Loop -> Repeat
+            if (mLoop) {
+                // Turn-on repeat
+                getMediaServer().status().command.playback.repeat();
+                mRepeat = true;
+                mLoop = false;
+            } else if (mRepeat) {
+                // Turn-off repeat
+                getMediaServer().status().command.playback.repeat();
+                mRepeat = false;
+            } else {
+                // Turn-on loop
+                getMediaServer().status().command.playback.loop();
+                mLoop = true;
+            }
+            updateButtons();
         }
     }
     

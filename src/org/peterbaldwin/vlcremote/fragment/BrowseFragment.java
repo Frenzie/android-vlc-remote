@@ -185,38 +185,38 @@ public class BrowseFragment extends MediaListFragment implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh_directory:
-                openDirectory(mDirectory, getDirectoryType(mDirectory));
-                return true;
-            case R.id.menu_parent:
-                openParentDirectory();
-                return true;
-            case R.id.menu_libraries:
-                openDirectory(File.LIBRARIES.getPath(), Data.LIBRARIES);
-                return true;
-            case R.id.menu_home:
-                mDirectory = mPreferences.getHomeDirectory();
-                openDirectory(mDirectory, getDirectoryType(mDirectory));
-                return true;
-            case R.id.menu_set_home:
-                mPreferences.setHomeDirectory(mDirectory);
-                showSetHomeToast();
-                return true;
-            case R.id.menu_size_large:
-                mPreferences.setTextSize(Preferences.TEXT_LARGE);
-                mAdapter.notifyDataSetChanged();
-                return true;
-            case R.id.menu_size_medium:
-                mPreferences.setTextSize(Preferences.TEXT_MEDIUM);
-                mAdapter.notifyDataSetChanged();
-                return true;
-            case R.id.menu_size_small:
-                mPreferences.setTextSize(Preferences.TEXT_SMALL);
-                mAdapter.notifyDataSetChanged();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.menu_refresh_directory) {
+            openDirectory(mDirectory, getDirectoryType(mDirectory));
+            return true;
+        } else if (id == R.id.menu_parent) {
+            openParentDirectory();
+            return true;
+        } else if (id == R.id.menu_libraries) {
+            openDirectory(File.LIBRARIES.getPath(), Data.LIBRARIES);
+            return true;
+        } else if (id == R.id.menu_home) {
+            mDirectory = mPreferences.getHomeDirectory();
+            openDirectory(mDirectory, getDirectoryType(mDirectory));
+            return true;
+        } else if (id == R.id.menu_set_home) {
+            mPreferences.setHomeDirectory(mDirectory);
+            showSetHomeToast();
+            return true;
+        } else if (id == R.id.menu_size_large) {
+            mPreferences.setTextSize(Preferences.TEXT_LARGE);
+            mAdapter.notifyDataSetChanged();
+            return true;
+        } else if (id == R.id.menu_size_medium) {
+            mPreferences.setTextSize(Preferences.TEXT_MEDIUM);
+            mAdapter.notifyDataSetChanged();
+            return true;
+        } else if (id == R.id.menu_size_small) {
+            mPreferences.setTextSize(Preferences.TEXT_SMALL);
+            mAdapter.notifyDataSetChanged();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -273,44 +273,44 @@ public class BrowseFragment extends MediaListFragment implements
     public boolean onContextItemSelected(MenuItem item) {
         File file = getFile(item.getMenuInfo());
         if(file != null) {
-            switch (item.getItemId()) {
-                case R.id.browse_context_open:
-                    openDirectory(file);
+            int id = item.getItemId();
+            if (id == R.id.browse_context_open) {
+                openDirectory(file);
+                return true;
+            } else if (id == R.id.browse_context_play) {
+                List<String> dirs = new ArrayList<String>(mAdapter.getRealPaths(file));
+                if(dirs.isEmpty()) {
+                    Toast.makeText(getActivity(), "Error: unable to find real path", Toast.LENGTH_SHORT).show();
                     return true;
-                case R.id.browse_context_play:
-                    List<String> dirs = new ArrayList<String>(mAdapter.getRealPaths(file));
-                    if(dirs.isEmpty()) {
-                        Toast.makeText(getActivity(), "Error: unable to find real path", Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                    getMediaServer().status().command.input.play(File.getMrl(dirs.get(0), file.getExtension()), file.getOptions());
-                    for(int i = 1; i < dirs.size(); i++) {
-                        getMediaServer().status().command.input.enqueue(File.getMrl(dirs.get(i), file.getExtension()));
-                    }
-                    return true;
-//                    case R.id.browse_context_stream:
-//                        getMediaServer().status().command.input.play(file.getMrl(),
-//                                file.getStreamingOptions());
-//                        Intent intent = file.getIntentForStreaming(getMediaServer().getAuthority());
-//                        startActivity(intent);
-//                        return true;
-                case R.id.browse_context_enqueue:
-                    for(String dir : mAdapter.getRealPaths(file)) {
-                        getMediaServer().status().command.input.enqueue(File.getMrl(dir, file.getExtension()));
-                    }
-                    // delay reloading playlist to give vlc time to queue and read metadata
-                    ((Reloader) getActivity()).reloadDelayed(Tags.FRAGMENT_PLAYLIST, null, 100);
-                    return true;
-                case R.id.browse_context_add_library:
-                    displayAddToLibraryDialog(file);
-                    return true;
-                case R.id.browse_context_remove_library:
-                    mPreferences.removeLibrary(file.getName());
-                    openDirectory(mDirectory, Data.LIBRARIES);
-                    return true;
-                case R.id.browse_context_remove_from_library:
-                    displayRemoveFromLibraryDialog(file);
-                    return true;
+                }
+                getMediaServer().status().command.input.play(File.getMrl(dirs.get(0), file.getExtension()), file.getOptions());
+                for(int i = 1; i < dirs.size(); i++) {
+                    getMediaServer().status().command.input.enqueue(File.getMrl(dirs.get(i), file.getExtension()));
+                }
+                return true;
+//            } else if (id == R.id.browse_context_stream) {
+//                getMediaServer().status().command.input.play(file.getMrl(),
+//                        file.getStreamingOptions());
+//                Intent intent = file.getIntentForStreaming(getMediaServer().getAuthority());
+//                startActivity(intent);
+//                return true;
+            } else if (id == R.id.browse_context_enqueue) {
+                for(String dir : mAdapter.getRealPaths(file)) {
+                    getMediaServer().status().command.input.enqueue(File.getMrl(dir, file.getExtension()));
+                }
+                // delay reloading playlist to give vlc time to queue and read metadata
+                ((Reloader) getActivity()).reloadDelayed(Tags.FRAGMENT_PLAYLIST, null, 100);
+                return true;
+            } else if (id == R.id.browse_context_add_library) {
+                displayAddToLibraryDialog(file);
+                return true;
+            } else if (id == R.id.browse_context_remove_library) {
+                mPreferences.removeLibrary(file.getName());
+                openDirectory(mDirectory, Data.LIBRARIES);
+                return true;
+            } else if (id == R.id.browse_context_remove_from_library) {
+                displayRemoveFromLibraryDialog(file);
+                return true;
             }
         }
         return super.onContextItemSelected(item);

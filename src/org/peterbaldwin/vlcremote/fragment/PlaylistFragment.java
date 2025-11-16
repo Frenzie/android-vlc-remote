@@ -138,15 +138,15 @@ public class PlaylistFragment extends MediaListFragment implements SearchView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh:
-                reload();
-                return true;
-            case R.id.menu_clear_playlist:
-                getMediaServer().status().command.playback.empty();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.menu_refresh) {
+            reload();
+            return true;
+        } else if (id == R.id.menu_clear_playlist) {
+            getMediaServer().status().command.playback.empty();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -199,16 +199,16 @@ public class PlaylistFragment extends MediaListFragment implements SearchView.On
             AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
             if (info.position < mAdapter.getCount()) {
                 PlaylistItem item = mAdapter.getItem(info.position);
-                switch (menuItem.getItemId()) {
-                    case R.id.playlist_context_play:
-                        selectItem(item);
-                        return true;
-                    case R.id.playlist_context_dequeue:
-                        removeItem(item, info.position);
-                        return true;
-                    case R.id.playlist_context_search:
-                        searchForItem(item);
-                        return true;
+                int id = menuItem.getItemId();
+                if (id == R.id.playlist_context_play) {
+                    selectItem(item);
+                    return true;
+                } else if (id == R.id.playlist_context_dequeue) {
+                    removeItem(item, info.position);
+                    return true;
+                } else if (id == R.id.playlist_context_search) {
+                    searchForItem(item);
+                    return true;
                 }
             }
         }

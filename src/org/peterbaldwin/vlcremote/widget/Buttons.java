@@ -84,17 +84,16 @@ public class Buttons {
      * @return Button or null if menu id not found
      */
     public static Button getButton(int menuId, Preferences pref) {
-        switch (menuId) {
-            case R.id.menu_action_button_first:
-                return getButton(Preferences.KEY_BUTTON_FIRST, pref);
-            case R.id.menu_action_button_second:
-                return getButton(Preferences.KEY_BUTTON_SECOND, pref);
-            case R.id.menu_action_button_third:
-                return getButton(Preferences.KEY_BUTTON_THIRD, pref);
-            case R.id.menu_action_button_fourth:
-                return getButton(Preferences.KEY_BUTTON_FOURTH, pref);
-            case R.id.menu_action_button_fifth:
-                return getButton(Preferences.KEY_BUTTON_FIFTH, pref);
+        if (menuId == R.id.menu_action_button_first) {
+            return getButton(Preferences.KEY_BUTTON_FIRST, pref);
+        } else if (menuId == R.id.menu_action_button_second) {
+            return getButton(Preferences.KEY_BUTTON_SECOND, pref);
+        } else if (menuId == R.id.menu_action_button_third) {
+            return getButton(Preferences.KEY_BUTTON_THIRD, pref);
+        } else if (menuId == R.id.menu_action_button_fourth) {
+            return getButton(Preferences.KEY_BUTTON_FOURTH, pref);
+        } else if (menuId == R.id.menu_action_button_fifth) {
+            return getButton(Preferences.KEY_BUTTON_FIFTH, pref);
         }
         return null;
     }
