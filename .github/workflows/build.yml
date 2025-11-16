@@ -28,14 +28,32 @@ jobs:
       - name: Generate local.properties
         run: echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
 
-      - name: Build with Ant
-        run: ant debug
+      - name: Install Android SDK packages
+        run: |
+          sdkmanager --install \
+            "platforms;android-35" \
+            "platform-tools" \
+            "build-tools;35.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.9
+
+      - name: Build with Gradle
+        run: |
+          if [[ -f ./gradlew ]]; then
+            chmod +x ./gradlew
+            ./gradlew --no-daemon assembleDebug
+          else
+            gradle --no-daemon assembleDebug
+          fi
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-vlc-remote-apk
-          path: bin/*.apk
+          path: build/outputs/apk/debug/*.apk
 
   attach-release:
     name: Attach APK to Release
