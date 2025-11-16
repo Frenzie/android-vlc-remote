@@ -62,4 +62,7 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.7.1'
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.loader:loader:1.1.0'
+
+    // Provide JUnit 3/4 APIs for legacy androidTest sources
+    androidTestImplementation 'junit:junit:4.13.2'
 }
