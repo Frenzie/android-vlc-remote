@@ -1,6 +1,6 @@
 /*-
- *  Copyright (C) 2011 Peter Baldwin   
- *  
+ *  Copyright (C) 2011 Peter Baldwin
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -32,10 +32,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.apache.http.Header;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.protocol.HTTP;
+import android.util.Base64;
+import java.nio.charset.StandardCharsets;
 import org.peterbaldwin.vlcremote.intent.Intents;
 import org.peterbaldwin.vlcremote.model.Directory;
 import org.peterbaldwin.vlcremote.model.Playlist;
@@ -178,10 +176,9 @@ public final class MediaServer {
             http.setConnectTimeout(TIMEOUT);
             try {
                 String usernamePassword = mUri.getUserInfo();
-                if (usernamePassword != null) {
-                    Header authorization = BasicScheme.authenticate(
-                            new UsernamePasswordCredentials(usernamePassword), HTTP.UTF_8, false);
-                    http.setRequestProperty(authorization.getName(), authorization.getValue());
+                if (usernamePassword != null && !usernamePassword.isEmpty()) {
+                    String basic = Base64.encodeToString(usernamePassword.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
+                    http.setRequestProperty("Authorization", "Basic " + basic);
                 }
                 return (T) handler.getContent(http);
             } finally {
@@ -191,7 +188,7 @@ public final class MediaServer {
     }
 
     public static final class StatusRequest extends Request {
-        
+
         private final boolean mUseXml = StatusService.USE_XML_STATUS;
 
         StatusRequest(Context context, String authority) {
@@ -321,7 +318,7 @@ public final class MediaServer {
                 public void previous() {
                     execute("command=pl_previous");
                 }
-                
+
                 public PendingIntent pendingPrevious() {
                     return pending(intent("command=pl_previous"));
                 }
@@ -331,7 +328,7 @@ public final class MediaServer {
                 }
 
                 /**
-                 * 
+                 *
                  * @param delay delay in milliseconds
                  */
                 public void subtitleDelay(float delay) {
@@ -339,7 +336,7 @@ public final class MediaServer {
                 }
 
                 /**
-                 * 
+                 *
                  * @param delay delay in milliseconds
                  */
                 public void audioDelay(float delay) {

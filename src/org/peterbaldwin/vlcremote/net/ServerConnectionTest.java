@@ -22,10 +22,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.apache.http.Header;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.protocol.HTTP;
+import android.util.Base64;
+import java.nio.charset.StandardCharsets;
 import org.peterbaldwin.client.android.vlcremote.R;
 import org.peterbaldwin.vlcremote.model.Server;
 
@@ -54,8 +52,13 @@ public class ServerConnectionTest extends AsyncTask<Server, Void, Integer> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(1000);
             try {
-                Header auth = BasicScheme.authenticate(new UsernamePasswordCredentials(servers[0].getUser(), servers[0].getPassword()), HTTP.UTF_8, false);
-                connection.setRequestProperty(auth.getName(), auth.getValue());
+                String u = servers[0].getUser();
+                String p = servers[0].getPassword();
+                if(u != null && p != null) {
+                    String creds = u + ":" + p;
+                    String basic = Base64.encodeToString(creds.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
+                    connection.setRequestProperty("Authorization", "Basic " + basic);
+                }
                 return connection.getResponseCode();
             } finally {
                 connection.disconnect();
