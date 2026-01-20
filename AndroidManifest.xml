@@ -4,9 +4,7 @@
     android:versionCode="66"
     android:versionName="0.7.5">
 
-    <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="35" />
+    <!-- SDK versions are declared in build.gradle (AGP 9+ disallows specifying them here). -->
 
     <supports-screens
         android:anyDensity="true"
