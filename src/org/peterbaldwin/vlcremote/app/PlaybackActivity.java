@@ -512,6 +512,7 @@ public class PlaybackActivity extends FragmentActivity implements TabHost.OnTabC
 
     @Override
     protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         String host = intent.getStringExtra(Intents.EXTRA_REMOTE_HOST);
         if (host != null) {
             int port = intent.getIntExtra(Intents.EXTRA_REMOTE_PORT, 8080);
@@ -521,7 +522,7 @@ public class PlaybackActivity extends FragmentActivity implements TabHost.OnTabC
 
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action) || Intents.ACTION_REMOTE_VIEW.equals(action)
-                || Intents.ACTION_VIEW.equals(action)) {
+                || Intent.ACTION_VIEW.equals(action)) {
             Uri data = intent.getData();
             if (data != null) {
                 changeInput(data.toString());
