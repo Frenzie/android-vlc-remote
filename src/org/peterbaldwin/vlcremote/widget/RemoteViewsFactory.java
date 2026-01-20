@@ -139,7 +139,7 @@ public class RemoteViewsFactory {
         remote.setViewVisibility(R.id.control_next, View.VISIBLE);
         remote.setOnClickPendingIntent(R.id.control_play, server.status().command.playback.pendingPause());
         remote.setOnClickPendingIntent(R.id.control_next, server.status().command.playback.pendingNext());
-        remote.setOnClickPendingIntent(R.id.control_close, PendingIntent.getService(context, 0, Intents.service(context, Intents.ACTION_NOTIFICATION_CANCEL), 0));
+        remote.setOnClickPendingIntent(R.id.control_close, PendingIntent.getService(context, 0, Intents.service(context, Intents.ACTION_NOTIFICATION_CANCEL), PendingIntent.FLAG_IMMUTABLE));
         if(status == null) {
             remote.setTextViewText(R.id.title, context.getString(R.string.loading));
         } else {
@@ -182,7 +182,7 @@ public class RemoteViewsFactory {
     
     private static RemoteViews setLaunchIntent(RemoteViews remote, Context context) {
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-        PendingIntent pi = PendingIntent.getActivity(context, 0, launch, 0);
+        PendingIntent pi = PendingIntent.getActivity(context, 0, launch, PendingIntent.FLAG_IMMUTABLE);
         remote.setOnClickPendingIntent(R.id.text_container, pi);
         return remote;
     }

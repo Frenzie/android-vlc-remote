@@ -135,7 +135,7 @@ public final class MediaServer {
         }
 
         protected final PendingIntent pending(Intent intent) {
-            return PendingIntent.getService(mContext, 0, intent, 0);
+            return PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         }
 
         protected final void start(Intent intent) {
@@ -146,7 +146,7 @@ public final class MediaServer {
                 AlarmManager manager = (AlarmManager) service;
                 long triggerAtTime = SystemClock.elapsedRealtime() + mDelay;
                 int requestCode = (int) triggerAtTime;
-                int flags = 0;
+                int flags = PendingIntent.FLAG_IMMUTABLE;
                 PendingIntent op = PendingIntent.getService(mContext, requestCode, intent, flags);
                 manager.set(AlarmManager.ELAPSED_REALTIME, triggerAtTime, op);
             }
